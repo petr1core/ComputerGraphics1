@@ -20,3 +20,13 @@ D:\VS Projects\CGSecondPoject\CGFirstProject\obj\Debug\CGFirstProject.csproj.Cor
 D:\VS Projects\CGSecondPoject\CGFirstProject\obj\Debug\CGFirstProject.exe
 D:\VS Projects\CGSecondPoject\CGFirstProject\obj\Debug\CGFirstProject.pdb
 D:\VS Projects\CGSecondPoject\CGFirstProject\obj\Debug\CGFirstProject.MyFIlters.resources
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.csproj.AssemblyReference.cache
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.MyFIlters.resources
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.Properties.Resources.resources
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.csproj.GenerateResource.cache
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.csproj.CoreCompileInputs.cache
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.exe
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.pdb
+E:\Files\Git\ComputerGraphics1\CGFirstProject\bin\Debug\CGFirstProject.exe.config
+E:\Files\Git\ComputerGraphics1\CGFirstProject\bin\Debug\CGFirstProject.exe
+E:\Files\Git\ComputerGraphics1\CGFirstProject\bin\Debug\CGFirstProject.pdb
