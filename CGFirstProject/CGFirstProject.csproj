@@ -46,26 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Binarization.cs" />
-    <Compile Include="BlurFilter.cs" />
-    <Compile Include="EmbossingFilter.cs" />
-    <Compile Include="Filters.cs" />
+    <Compile Include="Linear Filters\Binarization.cs" />
+    <Compile Include="Linear Filters\GlassFilter.cs" />
+    <Compile Include="Linear Filters\PerfectReflector.cs" />
+    <Compile Include="Matrix Filters\MedianFilter.cs" />
+    <Compile Include="Matrix Filters\MotionBlur.cs" />
+    <Compile Include="Linear Filters\Move.cs" />
+    <Compile Include="Matrix Filters\PruitFilter.cs" />
+    <Compile Include="Linear Filters\Rotate.cs" />
+    <Compile Include="Matrix Filters\BlurFilter.cs" />
+    <Compile Include="Matrix Filters\EmbossingFilter.cs" />
+    <Compile Include="Filters\Filters.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GaussianFilter.cs" />
-    <Compile Include="GrayShades.cs" />
-    <Compile Include="IntensityIncrease.cs" />
-    <Compile Include="InverseFilter.cs" />
-    <Compile Include="MatrixFilter.cs" />
+    <Compile Include="Matrix Filters\GaussianFilter.cs" />
+    <Compile Include="Linear Filters\GrayShades.cs" />
+    <Compile Include="Linear Filters\IntensityIncrease.cs" />
+    <Compile Include="Linear Filters\InverseFilter.cs" />
+    <Compile Include="Filters\MatrixFilter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SepiaFilter.cs" />
-    <Compile Include="SharpnessFilter.cs" />
-    <Compile Include="SobelFilter.cs" />
+    <Compile Include="Linear Filters\SepiaFilter.cs" />
+    <Compile Include="Matrix Filters\SharpnessFilter.cs" />
+    <Compile Include="Matrix Filters\SobelFilter.cs" />
+    <Compile Include="Linear Filters\WaveFilter1.cs" />
+    <Compile Include="Linear Filters\WaveFilter2.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

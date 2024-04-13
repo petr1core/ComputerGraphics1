@@ -11,6 +11,14 @@ namespace CGFirstProject
 {
     internal class IntensityIncrease : Filters
     {
+        public IntensityIncrease()
+        {
+            threshold = 0;
+            chanelR = false;
+            chanelG = false;
+            chanelB = false;
+        }
+
         public IntensityIncrease(int _threshold, bool _chanelR, bool _chanelG, bool _chanelB)
         {
             threshold = _threshold;

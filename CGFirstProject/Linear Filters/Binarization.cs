@@ -11,6 +11,12 @@ namespace CGFirstProject
 {
     internal class Binarization : Filters
     {
+        public Binarization() {
+            threshold = 0;
+            chanelR = false;
+            chanelG = false;
+            chanelB = false;
+        }
         public Binarization(int _threshold)
         {
             threshold = _threshold;

@@ -21,26 +21,46 @@ namespace CGFirstProject
     
     public partial class MyFIlters : Form
     {
+        private struct Current {
+            public ToolStripMenuItem item;
+            public Filters filter;
+
+            public Current(ToolStripMenuItem i, Filters f) {
+                item = i;
+                filter = f;
+            }
+
+            public void SetAll(ToolStripMenuItem i, Filters f) {
+                item = i;
+                filter = f;
+            }
+            public void SetItem(ToolStripMenuItem i){ item = i; }
+            public void SetFilter(Filters f) { filter = f; }
+            public ToolStripMenuItem GetItem() {  return item; }
+            public Filters GetFilter() { return filter; }
+
+        }
+
+        Current cursor = new Current();
         private Bitmap initialImg;
         private Bitmap changedImg;
-
         string savePath;
+
+
         public MyFIlters()
         {
             InitializeComponent();
         }
-
         public void AddImage(String path)
         {
             if (initialImg != null)
                 initialImg.Dispose();
             savePath = path;
-            
+
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             initialImg = new Bitmap(path);
             pictureBox1.Image = initialImg;
         }
-
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             String path = listBox1.GetItemText(listBox1.SelectedItem);
@@ -49,12 +69,14 @@ namespace CGFirstProject
 
             AddImage(path);
         }
-
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             label2.Text = trackBar1.Value.ToString();
         }
-
+        private void trackBar2_ValueChanged(object sender, EventArgs e)
+        {
+            label3.Text = trackBar2.Value.ToString();
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             String path = textBox1.Text;
@@ -77,81 +99,73 @@ namespace CGFirstProject
             else textBox1.Text = "Error, path is missing!";
 
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
-            if (inverseToolStripMenuItem1.Checked)
-            {
-                Filters inversedImg = new InverseFilter();
-                backgroundWorker1.RunWorkerAsync(inversedImg);
-            }
-            if (channelsToolStripMenuItem.Checked)
-            {
-                Filters intensityImg = new IntensityIncrease(Int32.Parse(label2.Text), CRed.Checked, CGreen.Checked, CBlue.Checked); 
-                backgroundWorker1.RunWorkerAsync(intensityImg);
-            }
-            if (binarizationToolStripMenuItem1.Checked)
-            {
-                Filters binarizaiedImg = new Binarization(trackBar1.Value);
-                backgroundWorker1.RunWorkerAsync(binarizaiedImg);
-            }
-            if (grayShadesToolStripMenuItem1.Checked)
-            {
-                Filters grayImg = new GrayShades();
-                backgroundWorker1.RunWorkerAsync(grayImg);
-            }
-            if (sepiaToolStripMenuItem.Checked) {
-                Filters sepiaImg = new SepiaFilter();
-                backgroundWorker1.RunWorkerAsync(sepiaImg);
-            }
-            if (blurSimpleToolStripMenuItem.Checked) 
-            {
-                try
-                {
-                    Filters blurImg = new BlurFilter(trackBar1.Value);
-                    backgroundWorker1.RunWorkerAsync(blurImg);
-                }
-                catch (ArgumentException) { }
-            }
-            if (blurGaussianToolStripMenuItem.Checked)
-            {
-                try
-                {
-                    Filters gaussBlurImg = new GaussianFilter(trackBar1.Value);
-                    backgroundWorker1.RunWorkerAsync(gaussBlurImg);
-                }
-                catch (ArgumentException) { }
-                
-            }
-            if (sharpenToolStripMenuItem1.Checked) {
-                Filters sharpenImg = new Sharpness();
-                backgroundWorker1.RunWorkerAsync(sharpenImg);
-            }
-            if (sobelToolStripMenuItem.Checked) { 
-                Filters sobelImg = new SobelFilter();
-                backgroundWorker1.RunWorkerAsync(sobelImg);
-            }
-            if (embossingToolStripMenuItem.Checked) {
-                Filters embossImg = new EmbossingFilter();
-                backgroundWorker1.RunWorkerAsync(embossImg);
-            }
-            if (
-                !inverseToolStripMenuItem1.Checked && !channelsToolStripMenuItem.Checked
-                && !binarizationToolStripMenuItem1.Checked && !grayShadesToolStripMenuItem1.Checked
-                && !blurSimpleToolStripMenuItem.Checked && !blurGaussianToolStripMenuItem.Checked
-                && !sharpenToolStripMenuItem1.Checked && !sepiaToolStripMenuItem.Checked
-                && !embossingToolStripMenuItem.Checked && !sobelToolStripMenuItem.Checked
-                )
-            {
+            if (cursor.item == null) 
                 pictureBox1.Image = initialImg;
-            }
-        }
 
+            if (cursor.item == channelsToolStripMenuItem)
+                cursor.SetFilter(new IntensityIncrease(Int32.Parse(label2.Text), CRed.Checked, CGreen.Checked, CBlue.Checked));
+            
+            if (cursor.item == binarizationToolStripMenuItem1)
+                cursor.SetFilter(new Binarization(trackBar1.Value));
+
+            if (cursor.item == moveToolStripMenuItem)
+                cursor.SetFilter(new Move(Int32.Parse(label2.Text), Int32.Parse(label3.Text)));
+
+            if (cursor.item == rotateToolStripMenuItem)
+                cursor.SetFilter(new Rotate((float)Int32.Parse(label2.Text)));
+
+            if (cursor.item == blurSimpleToolStripMenuItem)
+            {
+                try { cursor.SetFilter(new BlurFilter(trackBar1.Value)); }
+                catch (ArgumentException) { Console.WriteLine("BlurSimple arg exception" + trackBar1.Value); }
+            }
+
+            if (cursor.item == perfectReflectorToolStripMenuItem) {
+                cursor.SetFilter(new PerfectReflector(initialImg));
+            }
+
+            try { 
+                backgroundWorker1.RunWorkerAsync(cursor.filter);
+            }
+            catch (ArgumentException) { Console.WriteLine("BackgroundWorker exception"); }
+        }
         private void button4_Click(object sender, EventArgs e)
         {
             listBox1.Items.Remove(listBox1.SelectedItem);
         }
-        
+
+        /// Mute/unmute ToolStrip, Hide/unhide UI elements ///
+        private void InverseSelection(ToolStripMenuItem ts) {
+            foreach (ToolStripMenuItem i in ts.DropDownItems) { 
+                if (i.HasDropDownItems) InverseSelection(i);
+                else i.Checked = false;
+            }
+        }
+        private void CheckChoosen(ToolStripMenuItem ts, ToolStripMenuItem sender)
+        {
+            foreach (ToolStripMenuItem i in ts.DropDownItems)
+            {
+                InverseSelection(i);
+            }
+            sender.Checked = !sender.Checked;
+        }
+        private void HideNeedless() {
+            label2.Visible = false;
+            label3.Visible = false;
+            label4.Visible = false;
+            label5.Visible = false;
+            trackBar1.Visible = false;
+            trackBar2.Visible = false;
+            CRed.Visible = false;
+            CBlue.Visible = false;
+            CGreen.Visible = false;
+            CRed.Visible = false;
+            CBlue.Visible = false;
+            CGreen.Visible = false;
+        }
+
         /// Save/Load functions ///
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -234,220 +248,189 @@ namespace CGFirstProject
         /// Tool strip menu Items ///
         private void inverseToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = !inverseToolStripMenuItem1.Checked;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, inverseToolStripMenuItem1);
+            cursor = new Current(filtersToolStripMenuItem, new InverseFilter());
+            HideNeedless();
         }
         private void grayShadesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = !grayShadesToolStripMenuItem1.Checked;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, grayShadesToolStripMenuItem1);
+            cursor = new Current(grayShadesToolStripMenuItem1, new GrayShades());
+            HideNeedless();
         }
         private void binarizationToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = !binarizationToolStripMenuItem1.Checked;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, binarizationToolStripMenuItem1);
+            cursor = new Current(binarizationToolStripMenuItem1, new Binarization());
+            HideNeedless();
             if (binarizationToolStripMenuItem1.Checked)
             {
                 label2.Visible = true;
                 trackBar1.Visible = true;
                 trackBar1.Maximum = 255;
                 trackBar1.Minimum = 0;
-                label2.Text = trackBar1.Value.ToString();
+                trackBar1.Value = 0;
+                label3.Text = trackBar1.Value.ToString();
             }
         }
         private void channelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = !channelsToolStripMenuItem.Checked;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, channelsToolStripMenuItem);
+            cursor = new Current(channelsToolStripMenuItem, new IntensityIncrease());
+            HideNeedless();
             if (channelsToolStripMenuItem.Checked)
             {
                 trackBar1.Visible = true;
                 label2.Visible = true;
                 trackBar1.Maximum = 255;
                 trackBar1.Minimum = 0;
-                label2.Text = trackBar1.Value.ToString();
+                trackBar1.Value = 0;
                 CRed.Visible = true;
                 CBlue.Visible = true;
                 CGreen.Visible = true;
+                label3.Text = trackBar1.Value.ToString();
             }
         }
         private void blurSimpleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = !blurSimpleToolStripMenuItem.Checked;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, blurSimpleToolStripMenuItem);
+            cursor = new Current(blurSimpleToolStripMenuItem, new BlurFilter());
+            HideNeedless();
             if (blurSimpleToolStripMenuItem.Checked)
             {
                 trackBar1.Visible = true;
                 label2.Visible = true;
                 trackBar1.Maximum = 9;
                 trackBar1.Minimum = 0;
-                label2.Text = trackBar1.Value.ToString();
+                trackBar1.Value = 0;
+                label3.Text = trackBar1.Value.ToString();
             }
         }
         private void blurGaussianToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            blurGaussianToolStripMenuItem.Checked = !blurGaussianToolStripMenuItem.Checked;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, blurGaussianToolStripMenuItem);
+            cursor = new Current(blurGaussianToolStripMenuItem, new GaussianFilter());
+            HideNeedless();
             if (blurGaussianToolStripMenuItem.Checked)
             {
                 trackBar1.Visible = true;
                 label2.Visible = true;
                 trackBar1.Maximum = 9;
                 trackBar1.Minimum = 0;
-                label2.Text = trackBar1.Value.ToString();
+                trackBar1.Value = 0;
+                label3.Text = trackBar1.Value.ToString();
             }
-
         }
         private void sharpenToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = !sharpenToolStripMenuItem1.Checked;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, sharpenToolStripMenuItem1);
+            cursor = new Current(sharpenToolStripMenuItem1, new Sharpness());
+            HideNeedless();
         }
-
         private void sobelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = !sobelToolStripMenuItem.Checked;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, sobelToolStripMenuItem);
+            cursor = new Current(sobelToolStripMenuItem, new SobelFilter());
+            HideNeedless();
             if (sobelToolStripMenuItem.Checked) { 
                 label2.Visible = true;
                 trackBar1.Visible = true;
                 trackBar1.Maximum = 9;
                 trackBar1.Minimum = 0;
-                label2.Text = trackBar1.Value.ToString();
+                trackBar1.Value = 0;
+                label3.Text= trackBar1.Value.ToString();
             }
         }
-
         private void sepiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = !sepiaToolStripMenuItem.Checked;
-            embossingToolStripMenuItem.Checked = false;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, sepiaToolStripMenuItem);
+            cursor = new Current(sepiaToolStripMenuItem, new SepiaFilter());
+            HideNeedless();
+        }
+        private void glassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, glassToolStripMenuItem);
+            cursor = new Current(glassToolStripMenuItem, new GlassFilter());
+            HideNeedless();
+        }
+        private void moveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, moveToolStripMenuItem);
+            cursor = new Current(moveToolStripMenuItem, new Move());
+            HideNeedless();
+            if (moveToolStripMenuItem.Checked) {
+                label2.Visible = true;
+                label3.Visible = true;
+                label4.Visible = true;
+                label5.Visible = true;
+                trackBar2.Visible = true;
+                trackBar1.Visible = true;
+                trackBar1.Maximum = 1000;
+                trackBar2.Maximum = 1000;
+                trackBar1.Minimum = -1000;
+                trackBar2.Minimum = -1000;
+                trackBar1.Value = 0;
+                trackBar2.Value = 0;
+                label2.Text = trackBar2.Value.ToString();
+                label3.Text = trackBar1.Value.ToString();
+            }
+        }
+        private void rotateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, rotateToolStripMenuItem);
+            cursor = new Current(rotateToolStripMenuItem, new Rotate());
+            HideNeedless();
+            if (rotateToolStripMenuItem.Checked) {
+                label2.Visible = true;
+                trackBar1.Visible = true;
+                trackBar1.Minimum = 0;
+                trackBar1.Maximum = 360;
+                trackBar1.Value = 0;
+                label3.Text = trackBar1.Value.ToString();
+            }
+        }
+        private void wave1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, wave1ToolStripMenuItem);
+            cursor = new Current(wave1ToolStripMenuItem, new WaveFilter1());
+            HideNeedless();
+        }
+        private void wave2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, wave2ToolStripMenuItem);
+            cursor = new Current(wave2ToolStripMenuItem, new WaveFilter2());
+            HideNeedless();
+        }
+        private void medianToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, medianToolStripMenuItem);
+            cursor = new Current(medianToolStripMenuItem, new MedianFilter());
+            HideNeedless();
+        }
+        private void motionBlurToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, motionBlurToolStripMenuItem);
+            cursor = new Current(motionBlurToolStripMenuItem, new MotionBlur());
+            HideNeedless();
+        }
+        private void pruitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, pruitToolStripMenuItem);
+            cursor = new Current(pruitToolStripMenuItem, new PruitFilter());
+            HideNeedless();
+        }
+        private void embossingToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, embossingToolStripMenuItem);
+            cursor = new Current(embossingToolStripMenuItem, new EmbossingFilter());
+            HideNeedless();
         }
 
-        private void embossingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void perfectReflectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            inverseToolStripMenuItem1.Checked = false;
-            grayShadesToolStripMenuItem1.Checked = false;
-            channelsToolStripMenuItem.Checked = false;
-            binarizationToolStripMenuItem1.Checked = false;
-            blurSimpleToolStripMenuItem.Checked = false;
-            sharpenToolStripMenuItem1.Checked = false;
-            sobelToolStripMenuItem.Checked = false;
-            sepiaToolStripMenuItem.Checked = false;
-            embossingToolStripMenuItem.Checked = !embossingToolStripMenuItem.Checked;
-            label2.Visible = false;
-            trackBar1.Visible = false;
-            CRed.Visible = false;
-            CBlue.Visible = false;
-            CGreen.Visible = false;
+            CheckChoosen(filtersToolStripMenuItem, perfectReflectorToolStripMenuItem);
+            cursor = new Current(perfectReflectorToolStripMenuItem, new PerfectReflector(initialImg));
+            HideNeedless();
         }
     }
 }
