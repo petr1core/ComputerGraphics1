@@ -122,8 +122,10 @@ namespace CGFirstProject
                 catch (ArgumentException) { Console.WriteLine("BlurSimple arg exception" + trackBar1.Value); }
             }
 
-            if (cursor.item == perfectReflectorToolStripMenuItem) {
-                cursor.SetFilter(new PerfectReflector(initialImg));
+            if (colorCorrectionToolStripMenuItem.Checked) {
+                Color inputColor = Color.FromArgb(ColCorSelectedPB.BackColor.ToArgb());
+                Color resColor = Color.FromArgb(ColCorResPB.BackColor.ToArgb());
+                cursor.SetFilter(new ColorCorrection(inputColor, resColor));
             }
 
             try { 
@@ -152,6 +154,16 @@ namespace CGFirstProject
             sender.Checked = !sender.Checked;
         }
         private void HideNeedless() {
+            ColCorResPB.Visible = false;
+            ColCorResL.Visible = false;
+            ColCorRedL.Visible = false;
+            ColCorGreenL.Visible = false;
+            ColCorBlueL.Visible = false;
+            ColCorRedTB.Visible = false;
+            ColCorGreenTB.Visible = false;
+            ColCorBlueTB.Visible = false;
+            ColCorSelectedPB.Visible = false;
+            
             label2.Visible = false;
             label3.Visible = false;
             label4.Visible = false;
@@ -431,6 +443,164 @@ namespace CGFirstProject
             CheckChoosen(filtersToolStripMenuItem, perfectReflectorToolStripMenuItem);
             cursor = new Current(perfectReflectorToolStripMenuItem, new PerfectReflector(initialImg));
             HideNeedless();
+        }
+        private void colorCorrectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, colorCorrectionToolStripMenuItem);
+            cursor = new Current(perfectReflectorToolStripMenuItem, new ColorCorrection());
+            HideNeedless();
+            if (colorCorrectionToolStripMenuItem.Checked) {
+                ColCorResPB.Visible = true;
+                ColCorSelectedPB.Visible = true;
+                ColCorResPB.Visible = true;
+                ColCorResL.Visible = true;
+                ColCorRedL.Visible = true;
+                ColCorGreenL.Visible = true;
+                ColCorBlueL.Visible = true;
+                ColCorRedTB.Visible = true;
+                ColCorGreenTB.Visible = true;
+                ColCorBlueTB.Visible = true;
+            }
+            
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (backgroundWorker1.CancellationPending || !backgroundWorker1.IsBusy)
+            {
+                Point curs = pictureBox1.PointToClient(Cursor.Position);
+                if (pictureBox1.Image != null)
+                {
+                    float scaleX = (float)initialImg.Width / pictureBox1.Width;
+                    float scaleY = (float)initialImg.Height / pictureBox1.Height;
+
+                    int mPosX = (int)(curs.X * scaleX);
+                    int mPosY = (int)(curs.Y * scaleY);
+
+                    bool InCorners = (mPosX >= 0 && mPosX < initialImg.Width
+                                                 && mPosY >= 0
+                                                 && mPosY < initialImg.Height
+                                                 );
+                    if (ColCorSelectedPB.Visible && InCorners)
+                    {
+                        Console.WriteLine("Mouse position {0}, {1}", mPosX, mPosY);
+                        Console.WriteLine(
+                            "Pixel color: {0} {1} {2}",
+                            initialImg.GetPixel(mPosX, mPosY).R,
+                            initialImg.GetPixel(mPosX, mPosY).G,
+                            initialImg.GetPixel(mPosX, mPosY).B
+                            );
+                        ColCorSelectedPB.BackColor = Color.FromArgb(initialImg.GetPixel(mPosX, mPosY).ToArgb());
+                    }
+                }
+            }
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (backgroundWorker1.CancellationPending || !backgroundWorker1.IsBusy) {
+                Point curs = pictureBox1.PointToClient(Cursor.Position);
+                if (pictureBox1.Image != null)
+                {
+                    float scaleX = (float)initialImg.Width / pictureBox1.Width;
+                    float scaleY = (float)initialImg.Height / pictureBox1.Height;
+
+                    int mPosX = (int)(curs.X * scaleX);
+                    int mPosY = (int)(curs.Y * scaleY);
+
+                    bool InCorners = (mPosX >= 0 && mPosX < initialImg.Width
+                                                 && mPosY >= 0
+                                                 && mPosY < initialImg.Height
+                                                 );
+                    if (SelectPB.Visible && InCorners)
+                    {
+                        if (pictureBox1.ClientRectangle.Contains(curs))
+                        {
+                            Bitmap bmp = (Bitmap)pictureBox1.Image;
+                            SelectPB.BackColor = Color.FromArgb(bmp.GetPixel(mPosX, mPosY).ToArgb());
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ColCorRedTB_TextChanged(object sender, EventArgs e)
+        {
+            int green = 255;
+            int blue = 255;
+            if (!ColCorBlueTB.Text.Equals(""))
+            {
+                if (int.TryParse(ColCorBlueTB.Text, out int bVal))
+                {
+                    blue = bVal;
+                }
+            }
+            if (!ColCorGreenTB.Text.Equals("")) {
+                if (int.TryParse(ColCorGreenTB.Text, out int grVal)){
+                    green = grVal;
+                }
+            }
+            if (int.TryParse(ColCorRedTB.Text, out int rVal))
+            {
+                ColCorRedTB.Text = rVal.ToString();
+
+                Color newColor = Color.FromArgb(rVal % 255, green % 255, blue % 255);
+                ColCorResPB.BackColor = newColor;
+            }
+        }
+
+        private void ColCorGreenTB_TextChanged(object sender, EventArgs e)
+        {
+            int red = 255;
+            int blue = 255;
+            if (!ColCorBlueTB.Text.Equals(""))
+            {
+                if (int.TryParse(ColCorBlueTB.Text, out int bVal))
+                {
+                    blue = bVal;
+                }
+            }
+            if (!ColCorRedTB.Text.Equals(""))
+            {
+                if (int.TryParse(ColCorRedTB.Text, out int rVal))
+                {
+                    red = rVal;
+                }
+            }
+            if (int.TryParse(ColCorGreenTB.Text, out int grVal))
+            {
+                ColCorGreenTB.Text = grVal.ToString();
+
+                Color newColor = Color.FromArgb(red % 255, grVal % 255, blue % 255);
+                ColCorResPB.BackColor = newColor;
+            }
+        }
+
+        private void ColCorBlueTB_TextChanged(object sender, EventArgs e)
+        {
+            int red = 255;
+            int green = 255;
+            if (!ColCorGreenTB.Text.Equals(""))
+            {
+                if (int.TryParse(ColCorGreenTB.Text, out int grVal))
+                {
+                    green = grVal;
+                }
+            }
+            if (!ColCorRedTB.Text.Equals(""))
+            {
+                if (int.TryParse(ColCorRedTB.Text, out int rVal))
+                {
+                    red = rVal;
+                }
+            }
+            if (int.TryParse(ColCorBlueTB.Text, out int bVal))
+            {
+                ColCorBlueTB.Text = bVal.ToString();
+
+                Color newColor = Color.FromArgb(red % 255, green % 255, bVal % 255);
+                ColCorResPB.BackColor = newColor;
+            }
         }
     }
 }

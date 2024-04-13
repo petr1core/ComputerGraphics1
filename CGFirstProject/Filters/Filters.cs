@@ -18,8 +18,11 @@ namespace CGFirstProject
         protected abstract Color GetNewPixelColor(Bitmap source, int x, int y);
 
         public int Clamp(int val, int min, int max) {
-            if (val < min) return min;
-            if (val > max) return max;
+            if (val < min) 
+                return min;
+            if (val > max) 
+                return max;
+            
             return val;
         }
 
@@ -27,7 +30,8 @@ namespace CGFirstProject
             Bitmap res = new Bitmap(source.Width, source.Height);
             for (int i = 0; i < source.Width; i++) {
                 bw.ReportProgress((int)((float)i / res.Width * 100));
-                if (bw.CancellationPending) return null;
+                if (bw.CancellationPending) 
+                    return null;
                 for (int j = 0; j < source.Height; j++) {
                     res.SetPixel(i, j, GetNewPixelColor(source, i, j));
                 }

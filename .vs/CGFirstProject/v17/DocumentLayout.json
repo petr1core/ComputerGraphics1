@@ -3,32 +3,16 @@
   "WorkspaceRootPath": "E:\\Files\\Git\\ComputerGraphics1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|e:\\files\\git\\computergraphics1\\cgfirstproject\\linear filters\\perfectreflector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\linear filters\\perfectreflector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|e:\\files\\git\\computergraphics1\\cgfirstproject\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|e:\\files\\git\\computergraphics1\\cgfirstproject\\filters\\filters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\filters\\filters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|e:\\files\\git\\computergraphics1\\cgfirstproject\\linear filters\\colorcorrection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\linear filters\\colorcorrection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|e:\\files\\git\\computergraphics1\\cgfirstproject\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|e:\\files\\git\\computergraphics1\\cgfirstproject\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|E:\\Files\\Git\\ComputerGraphics1\\cgfirstproject\\linear filters\\rotate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\linear filters\\rotate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|E:\\Files\\Git\\ComputerGraphics1\\cgfirstproject\\matrix filters\\embossingfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B54D97-9070-46D3-A237-A779F8301FE6}|CGFirstProject\\CGFirstProject.csproj|solutionrelative:cgfirstproject\\matrix filters\\embossingfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 269,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +30,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Form1.cs",
               "RelativeDocumentMoniker": "CGFirstProject\\Form1.cs",
@@ -58,79 +42,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Form1.Designer.cs",
-              "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Form1.Designer.cs",
-              "RelativeDocumentMoniker": "CGFirstProject\\Form1.Designer.cs",
-              "ToolTip": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Form1.Designer.cs",
-              "RelativeToolTip": "CGFirstProject\\Form1.Designer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "ColorCorrection.cs",
+              "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Linear Filters\\ColorCorrection.cs",
+              "RelativeDocumentMoniker": "CGFirstProject\\Linear Filters\\ColorCorrection.cs",
+              "ToolTip": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Linear Filters\\ColorCorrection.cs",
+              "RelativeToolTip": "CGFirstProject\\Linear Filters\\ColorCorrection.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-13T18:06:12.423Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Filters.cs",
-              "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Filters\\Filters.cs",
-              "RelativeDocumentMoniker": "CGFirstProject\\Filters\\Filters.cs",
-              "ToolTip": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Filters\\Filters.cs",
-              "RelativeToolTip": "CGFirstProject\\Filters\\Filters.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAADwvx8AAABHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-13T17:57:59.261Z",
+              "WhenOpened": "2024-04-13T19:24:22.693Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "PerfectReflector.cs",
-              "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Linear Filters\\PerfectReflector.cs",
-              "RelativeDocumentMoniker": "CGFirstProject\\Linear Filters\\PerfectReflector.cs",
-              "ToolTip": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Linear Filters\\PerfectReflector.cs",
-              "RelativeToolTip": "CGFirstProject\\Linear Filters\\PerfectReflector.cs",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAowCcAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-13T17:52:28.36Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "Form1.cs",
               "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Form1.cs",
               "RelativeDocumentMoniker": "CGFirstProject\\Form1.cs",
               "ToolTip": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Form1.cs",
               "RelativeToolTip": "CGFirstProject\\Form1.cs",
-              "ViewState": "AQIAAJ4BAAAAAAAAAAAEwK8BAABjAAAA",
+              "ViewState": "AQIAAOABAAAAAAAAAAAAAPQBAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-12T17:42:16.101Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Rotate.cs",
-              "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Linear Filters\\Rotate.cs",
-              "RelativeDocumentMoniker": "CGFirstProject\\Linear Filters\\Rotate.cs",
-              "ToolTip": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Linear Filters\\Rotate.cs",
-              "RelativeToolTip": "CGFirstProject\\Linear Filters\\Rotate.cs",
-              "ViewState": "AQIAAAQAAAAAAAAAAAAAABAAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T19:50:05.648Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "EmbossingFilter.cs",
-              "DocumentMoniker": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Matrix Filters\\EmbossingFilter.cs",
-              "RelativeDocumentMoniker": "CGFirstProject\\Matrix Filters\\EmbossingFilter.cs",
-              "ToolTip": "E:\\Files\\Git\\ComputerGraphics1\\CGFirstProject\\Matrix Filters\\EmbossingFilter.cs",
-              "RelativeToolTip": "CGFirstProject\\Matrix Filters\\EmbossingFilter.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T17:38:37.078Z"
             }
           ]
         },

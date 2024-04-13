@@ -75,10 +75,24 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.perfectReflectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SelectPB = new System.Windows.Forms.PictureBox();
+            this.colorCorrectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ColCorResPB = new System.Windows.Forms.PictureBox();
+            this.ColCorResL = new System.Windows.Forms.Label();
+            this.ColCorRedTB = new System.Windows.Forms.TextBox();
+            this.ColCorBlueTB = new System.Windows.Forms.TextBox();
+            this.ColCorGreenTB = new System.Windows.Forms.TextBox();
+            this.ColCorRedL = new System.Windows.Forms.Label();
+            this.ColCorGreenL = new System.Windows.Forms.Label();
+            this.ColCorBlueL = new System.Windows.Forms.Label();
+            this.ColCorSelectedPB = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SelectPB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ColCorResPB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ColCorSelectedPB)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -92,6 +106,8 @@
             this.pictureBox1.Size = new System.Drawing.Size(404, 371);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             // 
             // textBox1
             // 
@@ -134,7 +150,7 @@
             // trackBar1
             // 
             this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.Location = new System.Drawing.Point(481, 192);
+            this.trackBar1.Location = new System.Drawing.Point(499, 191);
             this.trackBar1.Maximum = 255;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(104, 45);
@@ -147,7 +163,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(450, 200);
+            this.label2.Location = new System.Drawing.Point(462, 200);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(13, 13);
             this.label2.TabIndex = 10;
@@ -239,7 +255,7 @@
             // 
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Load";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -247,7 +263,7 @@
             // 
             this.loadFormTextToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("loadFormTextToolStripMenuItem.Image")));
             this.loadFormTextToolStripMenuItem.Name = "loadFormTextToolStripMenuItem";
-            this.loadFormTextToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.loadFormTextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadFormTextToolStripMenuItem.Text = "Load several (.txt)";
             this.loadFormTextToolStripMenuItem.Click += new System.EventHandler(this.loadFormTextToolStripMenuItem_Click);
             // 
@@ -255,7 +271,7 @@
             // 
             this.loadToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("loadToolStripMenuItem.Image")));
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "Save as (.png)";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.SavePngToolStripMenuItem_Click_1);
             // 
@@ -281,7 +297,8 @@
             this.sepiaToolStripMenuItem,
             this.wave1ToolStripMenuItem,
             this.wave2ToolStripMenuItem,
-            this.perfectReflectorToolStripMenuItem});
+            this.perfectReflectorToolStripMenuItem,
+            this.colorCorrectionToolStripMenuItem});
             this.linearToolStripMenuItem.Name = "linearToolStripMenuItem";
             this.linearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.linearToolStripMenuItem.Text = "Linear";
@@ -439,9 +456,9 @@
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(12, 424);
+            this.progressBar1.Location = new System.Drawing.Point(45, 424);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(404, 23);
+            this.progressBar1.Size = new System.Drawing.Size(371, 23);
             this.progressBar1.TabIndex = 31;
             // 
             // CancelButton
@@ -459,7 +476,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(450, 251);
+            this.label3.Location = new System.Drawing.Point(462, 251);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(13, 13);
             this.label3.TabIndex = 33;
@@ -469,7 +486,7 @@
             // trackBar2
             // 
             this.trackBar2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar2.Location = new System.Drawing.Point(481, 243);
+            this.trackBar2.Location = new System.Drawing.Point(499, 242);
             this.trackBar2.Maximum = 255;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Size = new System.Drawing.Size(104, 45);
@@ -482,7 +499,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(422, 251);
+            this.label4.Location = new System.Drawing.Point(434, 251);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(17, 13);
             this.label4.TabIndex = 36;
@@ -493,7 +510,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(422, 200);
+            this.label5.Location = new System.Drawing.Point(434, 200);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 13);
             this.label5.TabIndex = 35;
@@ -507,11 +524,132 @@
             this.perfectReflectorToolStripMenuItem.Text = "Perfect reflector";
             this.perfectReflectorToolStripMenuItem.Click += new System.EventHandler(this.perfectReflectorToolStripMenuItem_Click);
             // 
+            // SelectPB
+            // 
+            this.SelectPB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SelectPB.BackColor = System.Drawing.Color.White;
+            this.SelectPB.Location = new System.Drawing.Point(12, 424);
+            this.SelectPB.Name = "SelectPB";
+            this.SelectPB.Size = new System.Drawing.Size(23, 23);
+            this.SelectPB.TabIndex = 37;
+            this.SelectPB.TabStop = false;
+            // 
+            // colorCorrectionToolStripMenuItem
+            // 
+            this.colorCorrectionToolStripMenuItem.Name = "colorCorrectionToolStripMenuItem";
+            this.colorCorrectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorCorrectionToolStripMenuItem.Text = "Color correction";
+            this.colorCorrectionToolStripMenuItem.Click += new System.EventHandler(this.colorCorrectionToolStripMenuItem_Click);
+            // 
+            // ColCorResPB
+            // 
+            this.ColCorResPB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorResPB.BackColor = System.Drawing.Color.White;
+            this.ColCorResPB.Location = new System.Drawing.Point(493, 191);
+            this.ColCorResPB.Name = "ColCorResPB";
+            this.ColCorResPB.Size = new System.Drawing.Size(50, 50);
+            this.ColCorResPB.TabIndex = 38;
+            this.ColCorResPB.TabStop = false;
+            this.ColCorResPB.Visible = false;
+            // 
+            // ColCorResL
+            // 
+            this.ColCorResL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorResL.AutoSize = true;
+            this.ColCorResL.Location = new System.Drawing.Point(447, 213);
+            this.ColCorResL.Name = "ColCorResL";
+            this.ColCorResL.Size = new System.Drawing.Size(40, 13);
+            this.ColCorResL.TabIndex = 40;
+            this.ColCorResL.Text = "Result:";
+            this.ColCorResL.Visible = false;
+            // 
+            // ColCorRedTB
+            // 
+            this.ColCorRedTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorRedTB.Location = new System.Drawing.Point(493, 247);
+            this.ColCorRedTB.Name = "ColCorRedTB";
+            this.ColCorRedTB.Size = new System.Drawing.Size(100, 20);
+            this.ColCorRedTB.TabIndex = 41;
+            this.ColCorRedTB.Visible = false;
+            this.ColCorRedTB.TextChanged += new System.EventHandler(this.ColCorRedTB_TextChanged);
+            // 
+            // ColCorBlueTB
+            // 
+            this.ColCorBlueTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorBlueTB.Location = new System.Drawing.Point(493, 301);
+            this.ColCorBlueTB.Name = "ColCorBlueTB";
+            this.ColCorBlueTB.Size = new System.Drawing.Size(100, 20);
+            this.ColCorBlueTB.TabIndex = 42;
+            this.ColCorBlueTB.Visible = false;
+            this.ColCorBlueTB.TextChanged += new System.EventHandler(this.ColCorBlueTB_TextChanged);
+            // 
+            // ColCorGreenTB
+            // 
+            this.ColCorGreenTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorGreenTB.Location = new System.Drawing.Point(493, 275);
+            this.ColCorGreenTB.Name = "ColCorGreenTB";
+            this.ColCorGreenTB.Size = new System.Drawing.Size(100, 20);
+            this.ColCorGreenTB.TabIndex = 43;
+            this.ColCorGreenTB.Visible = false;
+            this.ColCorGreenTB.TextChanged += new System.EventHandler(this.ColCorGreenTB_TextChanged);
+            // 
+            // ColCorRedL
+            // 
+            this.ColCorRedL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorRedL.AutoSize = true;
+            this.ColCorRedL.Location = new System.Drawing.Point(460, 250);
+            this.ColCorRedL.Name = "ColCorRedL";
+            this.ColCorRedL.Size = new System.Drawing.Size(27, 13);
+            this.ColCorRedL.TabIndex = 44;
+            this.ColCorRedL.Text = "Red";
+            this.ColCorRedL.Visible = false;
+            // 
+            // ColCorGreenL
+            // 
+            this.ColCorGreenL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorGreenL.AutoSize = true;
+            this.ColCorGreenL.Location = new System.Drawing.Point(451, 278);
+            this.ColCorGreenL.Name = "ColCorGreenL";
+            this.ColCorGreenL.Size = new System.Drawing.Size(36, 13);
+            this.ColCorGreenL.TabIndex = 45;
+            this.ColCorGreenL.Text = "Green";
+            this.ColCorGreenL.Visible = false;
+            // 
+            // ColCorBlueL
+            // 
+            this.ColCorBlueL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorBlueL.AutoSize = true;
+            this.ColCorBlueL.Location = new System.Drawing.Point(459, 304);
+            this.ColCorBlueL.Name = "ColCorBlueL";
+            this.ColCorBlueL.Size = new System.Drawing.Size(28, 13);
+            this.ColCorBlueL.TabIndex = 46;
+            this.ColCorBlueL.Text = "Blue";
+            this.ColCorBlueL.Visible = false;
+            // 
+            // ColCorSelectedPB
+            // 
+            this.ColCorSelectedPB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColCorSelectedPB.BackColor = System.Drawing.Color.White;
+            this.ColCorSelectedPB.Location = new System.Drawing.Point(549, 197);
+            this.ColCorSelectedPB.Name = "ColCorSelectedPB";
+            this.ColCorSelectedPB.Size = new System.Drawing.Size(44, 44);
+            this.ColCorSelectedPB.TabIndex = 47;
+            this.ColCorSelectedPB.TabStop = false;
+            this.ColCorSelectedPB.Visible = false;
+            // 
             // MyFIlters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 461);
+            this.Controls.Add(this.ColCorSelectedPB);
+            this.Controls.Add(this.ColCorBlueL);
+            this.Controls.Add(this.ColCorGreenL);
+            this.Controls.Add(this.ColCorRedL);
+            this.Controls.Add(this.ColCorGreenTB);
+            this.Controls.Add(this.ColCorBlueTB);
+            this.Controls.Add(this.ColCorRedTB);
+            this.Controls.Add(this.ColCorResL);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
@@ -531,6 +669,8 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.SelectPB);
+            this.Controls.Add(this.ColCorResPB);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.MinimumSize = new System.Drawing.Size(860, 500);
@@ -541,6 +681,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SelectPB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ColCorResPB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ColCorSelectedPB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -594,6 +737,17 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripMenuItem perfectReflectorToolStripMenuItem;
+        private System.Windows.Forms.PictureBox SelectPB;
+        private System.Windows.Forms.ToolStripMenuItem colorCorrectionToolStripMenuItem;
+        private System.Windows.Forms.PictureBox ColCorResPB;
+        private System.Windows.Forms.Label ColCorResL;
+        private System.Windows.Forms.TextBox ColCorRedTB;
+        private System.Windows.Forms.TextBox ColCorBlueTB;
+        private System.Windows.Forms.TextBox ColCorGreenTB;
+        private System.Windows.Forms.Label ColCorRedL;
+        private System.Windows.Forms.Label ColCorGreenL;
+        private System.Windows.Forms.Label ColCorBlueL;
+        private System.Windows.Forms.PictureBox ColCorSelectedPB;
     }
 }
 
