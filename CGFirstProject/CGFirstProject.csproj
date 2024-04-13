@@ -49,6 +49,7 @@
     <Compile Include="Linear Filters\Binarization.cs" />
     <Compile Include="Linear Filters\ColorCorrection.cs" />
     <Compile Include="Linear Filters\GlassFilter.cs" />
+    <Compile Include="Linear Filters\GrayWorld.cs" />
     <Compile Include="Linear Filters\PerfectReflector.cs" />
     <Compile Include="Matrix Filters\MedianFilter.cs" />
     <Compile Include="Matrix Filters\MotionBlur.cs" />

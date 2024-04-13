@@ -116,6 +116,10 @@ namespace CGFirstProject
             if (cursor.item == rotateToolStripMenuItem)
                 cursor.SetFilter(new Rotate((float)Int32.Parse(label2.Text)));
 
+            if (cursor.item == perfectReflectorToolStripMenuItem) {
+                cursor.SetFilter(new PerfectReflector(initialImg));
+            }
+
             if (cursor.item == blurSimpleToolStripMenuItem)
             {
                 try { cursor.SetFilter(new BlurFilter(trackBar1.Value)); }
@@ -126,6 +130,10 @@ namespace CGFirstProject
                 Color inputColor = Color.FromArgb(ColCorSelectedPB.BackColor.ToArgb());
                 Color resColor = Color.FromArgb(ColCorResPB.BackColor.ToArgb());
                 cursor.SetFilter(new ColorCorrection(inputColor, resColor));
+            }
+
+            if (grayWorldToolStripMenuItem.Checked) {
+                cursor.SetFilter(new GrayWorld(initialImg));
             }
 
             try { 
@@ -441,7 +449,7 @@ namespace CGFirstProject
         private void perfectReflectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CheckChoosen(filtersToolStripMenuItem, perfectReflectorToolStripMenuItem);
-            cursor = new Current(perfectReflectorToolStripMenuItem, new PerfectReflector(initialImg));
+            cursor = new Current(perfectReflectorToolStripMenuItem, new PerfectReflector());
             HideNeedless();
         }
         private void colorCorrectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -461,7 +469,6 @@ namespace CGFirstProject
                 ColCorGreenTB.Visible = true;
                 ColCorBlueTB.Visible = true;
             }
-            
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -601,6 +608,13 @@ namespace CGFirstProject
                 Color newColor = Color.FromArgb(red % 255, green % 255, bVal % 255);
                 ColCorResPB.BackColor = newColor;
             }
+        }
+
+        private void grayWorldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, grayWorldToolStripMenuItem);
+            cursor = new Current(grayWorldToolStripMenuItem, new GrayWorld());
+            HideNeedless();
         }
     }
 }

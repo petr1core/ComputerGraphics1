@@ -86,6 +86,7 @@
             this.ColCorGreenL = new System.Windows.Forms.Label();
             this.ColCorBlueL = new System.Windows.Forms.Label();
             this.ColCorSelectedPB = new System.Windows.Forms.PictureBox();
+            this.grayWorldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -298,7 +299,8 @@
             this.wave1ToolStripMenuItem,
             this.wave2ToolStripMenuItem,
             this.perfectReflectorToolStripMenuItem,
-            this.colorCorrectionToolStripMenuItem});
+            this.colorCorrectionToolStripMenuItem,
+            this.grayWorldToolStripMenuItem});
             this.linearToolStripMenuItem.Name = "linearToolStripMenuItem";
             this.linearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.linearToolStripMenuItem.Text = "Linear";
@@ -637,6 +639,13 @@
             this.ColCorSelectedPB.TabStop = false;
             this.ColCorSelectedPB.Visible = false;
             // 
+            // grayWorldToolStripMenuItem
+            // 
+            this.grayWorldToolStripMenuItem.Name = "grayWorldToolStripMenuItem";
+            this.grayWorldToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.grayWorldToolStripMenuItem.Text = "Gray world";
+            this.grayWorldToolStripMenuItem.Click += new System.EventHandler(this.grayWorldToolStripMenuItem_Click);
+            // 
             // MyFIlters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -748,6 +757,7 @@
         private System.Windows.Forms.Label ColCorGreenL;
         private System.Windows.Forms.Label ColCorBlueL;
         private System.Windows.Forms.PictureBox ColCorSelectedPB;
+        private System.Windows.Forms.ToolStripMenuItem grayWorldToolStripMenuItem;
     }
 }
 
