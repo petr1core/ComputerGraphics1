@@ -41,3 +41,4 @@ F:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.csproj.Ge
 F:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.csproj.CoreCompileInputs.cache
 F:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.exe
 F:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.pdb
+E:\Files\Git\ComputerGraphics1\CGFirstProject\obj\Debug\CGFirstProject.Morphology.resources

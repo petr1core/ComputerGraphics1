@@ -24,7 +24,6 @@ namespace CGFirstProject
         private struct Current {
             public ToolStripMenuItem item;
             public Filters filter;
-
             public Current(ToolStripMenuItem i, Filters f) {
                 item = i;
                 filter = f;
@@ -36,17 +35,17 @@ namespace CGFirstProject
             }
             public void SetItem(ToolStripMenuItem i){ item = i; }
             public void SetFilter(Filters f) { filter = f; }
-            public ToolStripMenuItem GetItem() {  return item; }
-            public Filters GetFilter() { return filter; }
+            public readonly ToolStripMenuItem GetItem() => item;
+            public readonly Filters GetFilter() => filter;
 
         }
 
         Current cursor = new Current();
         private Bitmap initialImg;
         private Bitmap changedImg;
-        string savePath;
-
-
+        private string savePath;
+        private int morphTreshold;
+        private bool[,] morphKernel;
         public MyFIlters()
         {
             InitializeComponent();
@@ -63,11 +62,13 @@ namespace CGFirstProject
         }
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
-            String path = listBox1.GetItemText(listBox1.SelectedItem);
-            textBox1.Text = path;
-            savePath = path;
+            if (listBox1.GetItemText(listBox1.SelectedItem) != "") {
+                String path = listBox1.GetItemText(listBox1.SelectedItem);
+                textBox1.Text = path;
+                savePath = path;
 
-            AddImage(path);
+                AddImage(path);
+            }
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
@@ -99,6 +100,7 @@ namespace CGFirstProject
             else textBox1.Text = "Error, path is missing!";
 
         }
+
         private void button3_Click(object sender, EventArgs e)
         {
             if (cursor.item == null) 
@@ -116,10 +118,18 @@ namespace CGFirstProject
             if (cursor.item == rotateToolStripMenuItem)
                 cursor.SetFilter(new Rotate((float)Int32.Parse(label2.Text)));
 
-            if (cursor.item == perfectReflectorToolStripMenuItem) {
+            if (cursor.item == perfectReflectorToolStripMenuItem)
                 cursor.SetFilter(new PerfectReflector(initialImg));
-            }
 
+            if (grayWorldToolStripMenuItem.Checked)
+                cursor.SetFilter(new GrayWorld(initialImg));
+            
+            if (autolevelsToolStripMenuItem.Checked)
+                cursor.SetFilter(new Autolevels(initialImg));
+            
+            if (brightnessToolStripMenuItem.Checked)
+                cursor.SetFilter(new Brightness(trackBar1.Value));
+            
             if (cursor.item == blurSimpleToolStripMenuItem)
             {
                 try { cursor.SetFilter(new BlurFilter(trackBar1.Value)); }
@@ -132,8 +142,8 @@ namespace CGFirstProject
                 cursor.SetFilter(new ColorCorrection(inputColor, resColor));
             }
 
-            if (grayWorldToolStripMenuItem.Checked) {
-                cursor.SetFilter(new GrayWorld(initialImg));
+            if (erosionToolStripMenuItem.Checked) {
+                cursor.SetFilter(new Erosion(morphKernel,morphTreshold));
             }
 
             try { 
@@ -445,7 +455,6 @@ namespace CGFirstProject
             cursor = new Current(embossingToolStripMenuItem, new EmbossingFilter());
             HideNeedless();
         }
-
         private void perfectReflectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CheckChoosen(filtersToolStripMenuItem, perfectReflectorToolStripMenuItem);
@@ -470,7 +479,59 @@ namespace CGFirstProject
                 ColCorBlueTB.Visible = true;
             }
         }
+        private void grayWorldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, grayWorldToolStripMenuItem);
+            cursor = new Current(grayWorldToolStripMenuItem, new GrayWorld());
+            HideNeedless();
+        }
+        private void autolevelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, autolevelsToolStripMenuItem);
+            cursor = new Current(autolevelsToolStripMenuItem, new Autolevels());
+            HideNeedless();
+        }
+        private void brightnessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckChoosen(filtersToolStripMenuItem, brightnessToolStripMenuItem);
+            cursor = new Current(brightnessToolStripMenuItem, new Brightness());
+            HideNeedless();
+            if (brightnessToolStripMenuItem.Checked) {
+                label2.Visible = true;
+                trackBar1.Visible = true;
+                trackBar1.Maximum = 100;
+                trackBar1.Minimum = 0;
+                trackBar1.Value = 0;
+                label3.Text = trackBar1.Value.ToString();
+            }
+        }
+        private void erosionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Morphology morphInput = new Morphology();
+            morphInput.Name = "";
+            morphInput.ShowDialog();
+            if (morphInput.DialogResult != DialogResult.OK)
+                return;
+            morphTreshold = morphInput.treshold;
+            morphKernel = morphInput.kernel;
 
+            CheckChoosen(filtersToolStripMenuItem, erosionToolStripMenuItem);
+            cursor = new Current(brightnessToolStripMenuItem, new Erosion());
+            HideNeedless();
+        }
+        /// Tool strip menu Items ///
+        private Rectangle GetZoomedRectangle(PictureBox pictureBox, Bitmap image)
+        {
+            Rectangle imgBox = pictureBox.ClientRectangle;
+            float zoom = Math.Min((float)pictureBox.Width / (float)image.Width, (float)pictureBox.Height / (float)image.Height);
+
+            imgBox.Width = (int)(image.Width * zoom);
+            imgBox.Height = (int)(image.Height * zoom);
+            imgBox.X = (pictureBox.Width - imgBox.Width) / 2;
+            imgBox.Y = (pictureBox.Height - imgBox.Height) / 2;
+
+            return imgBox;
+        }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             if (backgroundWorker1.CancellationPending || !backgroundWorker1.IsBusy)
@@ -478,59 +539,70 @@ namespace CGFirstProject
                 Point curs = pictureBox1.PointToClient(Cursor.Position);
                 if (pictureBox1.Image != null)
                 {
-                    float scaleX = (float)initialImg.Width / pictureBox1.Width;
-                    float scaleY = (float)initialImg.Height / pictureBox1.Height;
+                    int mPosX = curs.X;
+                    int mPosY = curs.Y;
 
-                    int mPosX = (int)(curs.X * scaleX);
-                    int mPosY = (int)(curs.Y * scaleY);
+                    Bitmap bmp = (Bitmap)pictureBox1.Image;
 
-                    bool InCorners = (mPosX >= 0 && mPosX < initialImg.Width
-                                                 && mPosY >= 0
-                                                 && mPosY < initialImg.Height
-                                                 );
-                    if (ColCorSelectedPB.Visible && InCorners)
+                    Rectangle zoomedRect = GetZoomedRectangle(pictureBox1, bmp);
+
+                    // Проверяем, что курсор находится в пределах прямоугольника изображения
+                    if (zoomedRect.Contains(curs))
                     {
-                        Console.WriteLine("Mouse position {0}, {1}", mPosX, mPosY);
-                        Console.WriteLine(
-                            "Pixel color: {0} {1} {2}",
-                            initialImg.GetPixel(mPosX, mPosY).R,
-                            initialImg.GetPixel(mPosX, mPosY).G,
-                            initialImg.GetPixel(mPosX, mPosY).B
-                            );
-                        ColCorSelectedPB.BackColor = Color.FromArgb(initialImg.GetPixel(mPosX, mPosY).ToArgb());
+                        int imageX = (int)((curs.X - zoomedRect.X) * ((float)bmp.Width / zoomedRect.Width));
+                        int imageY = (int)((curs.Y - zoomedRect.Y) * ((float)bmp.Height / zoomedRect.Height));
+
+                        if (imageX >= 0 && imageX < bmp.Width && imageY >= 0 && imageY < bmp.Height)
+                        {
+                            Color pixel = bmp.GetPixel(imageX, imageY);
+                            ColCorSelectedPB.BackColor = pixel;
+                            string red = pixel.R.ToString();
+                            string green = pixel.G.ToString();
+                            string blue = pixel.B.ToString();
+                            Console.WriteLine("Pixel color: {0}, {1}, {2}", red, green, blue);
+                            Console.WriteLine("Mouse position {0}, {1}\nImage position {2}, {3}\n", mPosX, mPosY, imageX, imageY);
+                        }
                     }
                 }
             }
         }
-
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             if (backgroundWorker1.CancellationPending || !backgroundWorker1.IsBusy) {
                 Point curs = pictureBox1.PointToClient(Cursor.Position);
                 if (pictureBox1.Image != null)
                 {
-                    float scaleX = (float)initialImg.Width / pictureBox1.Width;
-                    float scaleY = (float)initialImg.Height / pictureBox1.Height;
+                    int mPosX = curs.X;
+                    int mPosY = curs.Y;
 
-                    int mPosX = (int)(curs.X * scaleX);
-                    int mPosY = (int)(curs.Y * scaleY);
 
-                    bool InCorners = (mPosX >= 0 && mPosX < initialImg.Width
-                                                 && mPosY >= 0
-                                                 && mPosY < initialImg.Height
-                                                 );
-                    if (SelectPB.Visible && InCorners)
+                    Bitmap bmp = (Bitmap)pictureBox1.Image;
+
+                    Rectangle zoomedRect = GetZoomedRectangle(pictureBox1, bmp);
+
+                    // Проверяем, что курсор находится в пределах прямоугольника изображения
+                    if (zoomedRect.Contains(curs))
                     {
-                        if (pictureBox1.ClientRectangle.Contains(curs))
+                        int imageX = (int)((curs.X - zoomedRect.X) * ((float)bmp.Width / zoomedRect.Width));
+                        int imageY = (int)((curs.Y - zoomedRect.Y) * ((float)bmp.Height / zoomedRect.Height));
+
+                        if (imageX >= 0 && imageX < bmp.Width && imageY >= 0 && imageY < bmp.Height)
                         {
-                            Bitmap bmp = (Bitmap)pictureBox1.Image;
-                            SelectPB.BackColor = Color.FromArgb(bmp.GetPixel(mPosX, mPosY).ToArgb());
+                            Color pixel = bmp.GetPixel(imageX, imageY);
+                            SelectPB.BackColor = pixel;
+                            string red = pixel.R.ToString();
+                            string green = pixel.G.ToString();
+                            string blue = pixel.B.ToString();
+                            SelectedRGBL.Text = String.Format("({0}, {1}, {2})", red, green, blue);
+                            Console.WriteLine("Pixel color: {0}, {1}, {2}", red, green, blue);
+                            Console.WriteLine("Mouse position {0}, {1}\nImage position {2}, {3}\n", mPosX, mPosY, imageX, imageY);
                         }
                     }
                 }
             }
         }
 
+        /// Color correction Text Boxes update mechanics///
         private void ColCorRedTB_TextChanged(object sender, EventArgs e)
         {
             int green = 255;
@@ -555,7 +627,6 @@ namespace CGFirstProject
                 ColCorResPB.BackColor = newColor;
             }
         }
-
         private void ColCorGreenTB_TextChanged(object sender, EventArgs e)
         {
             int red = 255;
@@ -582,7 +653,6 @@ namespace CGFirstProject
                 ColCorResPB.BackColor = newColor;
             }
         }
-
         private void ColCorBlueTB_TextChanged(object sender, EventArgs e)
         {
             int red = 255;
@@ -610,11 +680,5 @@ namespace CGFirstProject
             }
         }
 
-        private void grayWorldToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CheckChoosen(filtersToolStripMenuItem, grayWorldToolStripMenuItem);
-            cursor = new Current(grayWorldToolStripMenuItem, new GrayWorld());
-            HideNeedless();
-        }
     }
 }
